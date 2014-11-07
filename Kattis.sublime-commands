@@ -1,0 +1,4 @@
+[
+    { "caption": "Kattis - Submit", "command": "kattis" },
+    { "caption": "Kattis - Set Problem ID", "command": "kattis_set" },
+]
