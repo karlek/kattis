@@ -19,7 +19,7 @@ class KattisApiCall(threading.Thread):
 			return
 
 		# Open the submission in the standard browser.
-		command_browser = 'xdg-open "https://kth.kattis.com/submissions/%s"' % (problem_url)
+		command_browser = 'xdg-open "https://kth.kattis.com/submissions/%s"' % (ret)
 		os.popen(command_browser).read()
 
 # Kattis - Submit
@@ -33,7 +33,7 @@ class KattisCommand(sublime_plugin.TextCommand):
 		# Problem ID.
 		problem  = self.load_settings().get(filename)
 		# Location of submit script.
-		script   = sublime.packages_path()+"/Kattis/submit.py"
+		script   = sublime.packages_path()+"/kattis/submit.py"
 
 		# If problem ID isn't set; query the user.
 		if problem is None:
