@@ -1,35 +1,50 @@
-Installation
-=============
 
-1. Download config file.
--------------------------
+## Kattis
 
-https://kth.kattis.com/download/kattisrc
-
-place in ~/.kattisrc
+Sublime package for submitting problems inside sublimes to kattis! 
 
 
-Usage
-======
+## Installation
 
-1. Use kattis plugin in sublime to submit current file.
---------------------------------------------------------
+1. __Download package__
 
-ctrl+shift+p
-Kattis - Submit
+    ```sh
+    $ cd "~/.config/sublime-text-3/Packages/"
+    $ git clone "git@github.com:karlek/kattis.git"
+    $ cd kattis
+    $ # If you use open.kattis.com
+    $ sed -i "s/kth.kattis/open.kattis/g" kattis.py
+    ```
 
-1b. The file hasn't been submitted before.
--------------------------------------------
+2. __Download config file__
 
-enter problem id
+    _kth.kattis.com_:  
+    https://kth.kattis.com/download/kattisrc
 
-2. The file is submitted!
---------------------------
+    _open.kattis.com_:  
+    https://open.kattis.com/download/kattisrc
 
-Fuck Yeah!
+    Save to ~/.kattisrc
 
-3. set/change problem id.
---------------------------
+## Usage
 
-ctrl+shift+p
-Kattis - Set Problem ID
+1. __Use kattis plugin in sublime to submit current file__
+
+    `ctrl+shift+p` -> Kattis - Submit
+
+    1b. __The file hasn't been submitted before.__
+
+    Enter problem id.
+
+2. __The file is submitted!__
+
+    Ah yeah!
+
+3. __Set/change problem id__
+
+    `ctrl+shift+p` -> Kattis - Set Problem ID
+
+
+## Public domain
+
+I hereby release this code into the [public domain](https://creativecommons.org/publicdomain/zero/1.0/).
