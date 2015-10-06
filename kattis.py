@@ -19,7 +19,7 @@ class KattisApiCall(threading.Thread):
 			return
 
 		# Open the submission in the standard browser.
-		command_browser = 'xdg-open "https://kth.kattis.com/submissions/%s"' % (ret)
+		command_browser = 'xdg-open "https://open.kattis.com/submissions/%s"' % (ret)
 		os.popen(command_browser).read()
 
 # Kattis - Submit
