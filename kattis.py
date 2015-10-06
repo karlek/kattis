@@ -55,5 +55,6 @@ class KattisSetCommand(sublime_plugin.WindowCommand):
 			self.load_settings().set(self.window.active_view().file_name(), id)
 			self.window.active_view().run_command('kattis')
 
-		self.window.show_input_panel("Kattis problem ID:", "", on_done, None, None)
+		filename, _ = os.path.splitext(self.window.active_view().file_name())
+		self.window.show_input_panel("Kattis problem ID:", os.path.basename(filename), on_done, None, None)
 
