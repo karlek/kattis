@@ -27,12 +27,12 @@ def open_url(url):
 
 # Threading to avoid freeze lag when opening description.
 class KattisOpen(threading.Thread):
-	def __init__(self, problem):
-		self.problem = problem
+	def __init__(self, url):
+		self.url = url
 		threading.Thread.__init__(self)
 	def run(self):
 		# Open the submission in the standard browser.
-		open_url("https://open.kattis.com/problems/%s" % (self.problem))
+		open_url(self.url)
 
 # Kattis - Description
 class KattisDescriptionCommand(sublime_plugin.TextCommand):
@@ -44,7 +44,27 @@ class KattisDescriptionCommand(sublime_plugin.TextCommand):
 		filename = self.view.file_name()
 		# Problem ID.
 		problem  = self.load_settings().get(filename)
-		KattisOpen(problem).start()
+		# If problem ID isn't set; query the user.
+		if problem is None:
+			self.view.window().run_command('kattis_set', {"submit":False})
+			return
+		KattisOpen("https://open.kattis.com/problems/%s" % (problem)).start()
+
+# Kattis - Statistics
+class KattisStatisticsCommand(sublime_plugin.TextCommand):
+	def load_settings(self):
+		return sublime.load_settings('Kattis.sublime-settings')
+
+	def run(self, edit):
+		# Current opened file in viewport.
+		filename = self.view.file_name()
+		# Problem ID.
+		problem  = self.load_settings().get(filename)
+		# If problem ID isn't set; query the user.
+		if problem is None:
+			self.view.window().run_command('kattis_set', {"submit":False})
+			return
+		KattisOpen("https://open.kattis.com/problems/%s/statistics" % (problem)).start()
 
 # Kattis - Submit
 class KattisCommand(sublime_plugin.TextCommand):
