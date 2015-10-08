@@ -19,8 +19,32 @@ class KattisApiCall(threading.Thread):
 			return
 
 		# Open the submission in the standard browser.
-		command_browser = 'xdg-open "https://open.kattis.com/submissions/%s"' % (ret)
-		os.popen(command_browser).read()
+		open_url("https://open.kattis.com/submissions/%s" % (ret))
+
+def open_url(url):
+	command_browser = 'xdg-open "%s"' % (url)
+	os.popen(command_browser).read()
+
+# Threading to avoid freeze lag when opening description.
+class KattisOpen(threading.Thread):
+	def __init__(self, problem):
+		self.problem = problem
+		threading.Thread.__init__(self)
+	def run(self):
+		# Open the submission in the standard browser.
+		open_url("https://open.kattis.com/problems/%s" % (self.problem))
+
+# Kattis - Description
+class KattisDescriptionCommand(sublime_plugin.TextCommand):
+	def load_settings(self):
+		return sublime.load_settings('Kattis.sublime-settings')
+
+	def run(self, edit):
+		# Current opened file in viewport.
+		filename = self.view.file_name()
+		# Problem ID.
+		problem  = self.load_settings().get(filename)
+		KattisOpen(problem).start()
 
 # Kattis - Submit
 class KattisCommand(sublime_plugin.TextCommand):
@@ -37,7 +61,7 @@ class KattisCommand(sublime_plugin.TextCommand):
 
 		# If problem ID isn't set; query the user.
 		if problem is None:
-			self.view.window().run_command('kattis_set')
+			self.view.window().run_command('kattis_set', {"submit":True})
 			return
 
 		# Submit the problem in new thread.
@@ -50,11 +74,17 @@ class KattisSetCommand(sublime_plugin.WindowCommand):
 		return sublime.load_settings('Kattis.sublime-settings')
 
 	def run(self, **kwargs):
-		# Callback function for show_input_panel.
+		# Callback functions for show_input_panel.
 		def on_done(id):
+			self.load_settings().set(self.window.active_view().file_name(), id)
+		def on_done_submit(id):
 			self.load_settings().set(self.window.active_view().file_name(), id)
 			self.window.active_view().run_command('kattis')
 
 		filename, _ = os.path.splitext(self.window.active_view().file_name())
-		self.window.show_input_panel("Kattis problem ID:", os.path.basename(filename), on_done, None, None)
+
+		set_func = on_done
+		if kwargs["submit"]:
+			set_func = on_done_submit
+		self.window.show_input_panel("Kattis problem ID:", os.path.basename(filename), set_func, None, None)
 
