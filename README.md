@@ -12,8 +12,8 @@ Sublime package for submitting problems inside sublimes to kattis!
     $ cd "~/.config/sublime-text-3/Packages/"
     $ git clone "git@github.com:karlek/kattis.git"
     $ cd kattis
-    $ # If you use open.kattis.com
-    $ sed -i "s/kth.kattis/open.kattis/g" kattis.py
+    $ # If you use kth.kattis.com
+    $ sed -i "s/open.kattis/kth.kattis/g" kattis.py
     ```
 
 2. __Download config file__
